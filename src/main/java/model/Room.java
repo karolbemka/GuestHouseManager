@@ -15,7 +15,7 @@ public class Room {
     @Column(name = "ROOM_NAME")
     private String roomName;
 
-    @OneToMany(mappedBy = "RESERVED_ROOM", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "reservedRoom", fetch = FetchType.EAGER)
     private List<Reservation> roomReservations;
 
 

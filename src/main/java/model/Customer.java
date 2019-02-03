@@ -19,7 +19,7 @@ public class Customer {
     @Column(name = "CUSTOMER_SURNAME")
     private String customerSurname;
 
-    @OneToMany(mappedBy = "RESERVATION_CUSTOMER", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "reservationCustomer", fetch = FetchType.EAGER)
     private List<Reservation> reservationList;
 
     public Customer() {
