@@ -2,6 +2,7 @@ package model;
 
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Table(name = "customers")
@@ -18,12 +19,16 @@ public class Customer {
     @Column(name = "CUSTOMER_SURNAME")
     private String customerSurname;
 
+    @OneToMany(mappedBy = "RESERVATION_CUSTOMER", fetch = FetchType.EAGER)
+    private List<Reservation> reservationList;
+
     public Customer() {
     }
 
-    public Customer(String customerName, String customerSurname) {
+    public Customer(String customerName, String customerSurname, List<Reservation> reservationList) {
         this.customerName = customerName;
         this.customerSurname = customerSurname;
+        this.reservationList = reservationList;
     }
 
     public int getCustomerId() {
@@ -48,5 +53,13 @@ public class Customer {
 
     public void setCustomerSurname(String customerSurname) {
         this.customerSurname = customerSurname;
+    }
+
+    public List<Reservation> getReservationList() {
+        return reservationList;
+    }
+
+    public void setReservationList(List<Reservation> reservationList) {
+        this.reservationList = reservationList;
     }
 }
