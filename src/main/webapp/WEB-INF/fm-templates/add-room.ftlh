@@ -16,19 +16,19 @@
             <div class="form-group">
                 <label for="roomName">Jak chcesz nazwać nowy pokój?</label>
                 <input name="roomName" type="text" class="form-control" id="roomName" required
-                       title="Wpisz nazwę lub nr"
+                       title="Wpisz nazwę lub nr">
             </div>
 
             <div class="form-group">
                 <label for="roomSlots">Maksymalna liczba miejsc w pokoju</label>
                 <input name="roomSlots" type="text" class="form-control" id="roomName" required
-                       title="Liczba miejsc" pattern="[1-9]"
+                       title="Liczba miejsc" pattern="[1-9]">
             </div>
             <br>
             <input class="btn btn-primary btn-lg btn-dark" type="submit" value="Dodaj pokój">
         </form>
     </div>
 </div>
-</div>
+
 
 <#include "footer.ftlh">

@@ -19,15 +19,23 @@ public class Customer {
     @Column(name = "CUSTOMER_SURNAME")
     private String customerSurname;
 
+    @Column(name = "CUSTOMER_PHONE")
+    private int customerPhone;
+
+    @Column(name = "CUSTOMER_EMAIL")
+    private String customerEmail;
+
     @OneToMany(mappedBy = "reservationCustomer", fetch = FetchType.EAGER)
     private List<Reservation> reservationList;
 
     public Customer() {
     }
 
-    public Customer(String customerName, String customerSurname, List<Reservation> reservationList) {
+    public Customer(String customerName, String customerSurname, int customerPhone, String customerEmail, List<Reservation> reservationList) {
         this.customerName = customerName;
         this.customerSurname = customerSurname;
+        this.customerPhone = customerPhone;
+        this.customerEmail = customerEmail;
         this.reservationList = reservationList;
     }
 
@@ -61,5 +69,21 @@ public class Customer {
 
     public void setReservationList(List<Reservation> reservationList) {
         this.reservationList = reservationList;
+    }
+
+    public int getCustomerPhone() {
+        return customerPhone;
+    }
+
+    public void setCustomerPhone(int customerPhone) {
+        this.customerPhone = customerPhone;
+    }
+
+    public String getCustomerEmail() {
+        return customerEmail;
+    }
+
+    public void setCustomerEmail(String customerEmail) {
+        this.customerEmail = customerEmail;
     }
 }
