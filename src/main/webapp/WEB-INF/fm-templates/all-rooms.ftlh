@@ -5,6 +5,21 @@
     <title>title</title>
 </head>
 <body>
-<p>Empty page</p>
+<p>Wszystkie pokoje</p>
+<table style="width: auto">
+    <tr>
+        <th>Nazwa pokoju</th>
+        <th>Liczba miejsc</th>
+    </tr>
+
+
+    <#list roomsList as rooms>
+        <tr>
+
+        </tr>
+
+    </#list>
+</table>
+
 </body>
 </html>

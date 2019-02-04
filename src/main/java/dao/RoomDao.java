@@ -5,6 +5,8 @@ import model.Room;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
+import java.util.List;
 
 @Stateless
 public class RoomDao {
@@ -30,5 +32,11 @@ public class RoomDao {
 
     public Room findById(int id) {
         return entityManager.find(Room.class, id);
+    }
+
+    public List<Room> findAll() {
+        final Query query = entityManager.createQuery("SELECT room FROM Room room");
+
+        return (List<Room>) query.getResultList();
     }
 }

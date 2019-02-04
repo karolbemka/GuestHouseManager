@@ -26,17 +26,21 @@ public class Reservation {
     @Column(name = "END_DATE")
     private LocalDate endDate;
 
+    @Column(name = "NUMBER_OF_PERSONS")
+    private int numberOfPersons;
+
 
 
     public Reservation() {
 
     }
 
-    public Reservation(Room reservedRoom, Customer reservationCustomer, LocalDate startDate, LocalDate endDate) {
+    public Reservation(Room reservedRoom, Customer reservationCustomer, LocalDate startDate, LocalDate endDate, int numberOfPersons) {
         this.reservedRoom = reservedRoom;
         this.reservationCustomer = reservationCustomer;
         this.startDate = startDate;
         this.endDate = endDate;
+        this.numberOfPersons = numberOfPersons;
     }
 
     public int getReservationId() {
@@ -77,6 +81,14 @@ public class Reservation {
 
     public void setEndDate(LocalDate endDate) {
         this.endDate = endDate;
+    }
+
+    public int getNumberOfPersons() {
+        return numberOfPersons;
+    }
+
+    public void setNumberOfPersons(int numberOfPersons) {
+        this.numberOfPersons = numberOfPersons;
     }
 }
 
