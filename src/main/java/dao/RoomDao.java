@@ -30,12 +30,19 @@ public class RoomDao {
         }
     }
 
+    public List<Room> findByName(String roomName) {
+        final Query query = entityManager.createQuery("SELECT r FROM Room r WHERE r.roomName = :roomName");
+        query.setParameter("roomName", roomName);
+
+        return (List<Room>) query.getResultList();
+    }
+
     public Room findById(int id) {
         return entityManager.find(Room.class, id);
     }
 
     public List<Room> findAll() {
-        final Query query = entityManager.createQuery("SELECT room FROM Room room");
+        final Query query = entityManager.createQuery("SELECT r FROM Room r");
 
         return (List<Room>) query.getResultList();
     }

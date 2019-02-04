@@ -10,18 +10,27 @@
             <tr>
                 <th>Nazwa pokoju</th>
                 <th>Liczba miejsc</th>
+                <th></th>
+                <th></th>
             </tr>
             </thead>
             <tbody>
-            <#list roomsList as rooms>
+            <#list roomsList as room>
                 <tr>
-                    <td>${rooms.roomName}</td>
-                    <td>${rooms.roomSlots}</td>
+                    <td>${room.roomName}</td>
+                    <td>${room.roomSlots}</td>
+                    <td>
+                        <a href="/reservations?id=${room.roomId}" class="btn btn-dark">Zobacz rezerwacje</a>
+                    </td>
+                    <td>
+                        <a href="/add-reservation?id=${room.roomId}" class="btn btn-dark">Dodaj rezerwację</a>
+                    </td>
                 </tr>
             </#list>
             </tbody>
         </table>
     </div>
 </div>
+
 
 <#include "footer.ftlh">

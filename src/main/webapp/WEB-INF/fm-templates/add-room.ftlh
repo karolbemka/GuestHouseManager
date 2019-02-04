@@ -5,6 +5,12 @@
         <h1 class="display-4">Dodaj pokój</h1>
         <hr class="my-4">
 
+        <#if error??>
+                <div class="alert alert-danger">
+                    <strong>${error}</strong>
+                </div>
+        </#if>
+
         <form method="post" action="/add-room">
 
             <div class="form-group">
@@ -18,10 +24,11 @@
                 <input name="roomSlots" type="text" class="form-control" id="roomName" required
                        title="Liczba miejsc" pattern="[1-9]"
             </div>
-
+            <br>
             <input class="btn btn-primary btn-lg btn-dark" type="submit" value="Dodaj pokój">
         </form>
     </div>
+</div>
 </div>
 
 <#include "footer.ftlh">

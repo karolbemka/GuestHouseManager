@@ -14,7 +14,7 @@
         <div class="container-fluid">
             <nav class="navbar navbar-expand-lg navbar-dark bg-dark"
                  style="background-color: rgba(233, 236, 239, 0.8);">
-                <a class="navbar-brand" href="index.html">GuestHouse Manager</a>
+                <a class="navbar-brand" href="/">GuestHouse Manager</a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
                         aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
@@ -22,13 +22,13 @@
                 <div class="collapse navbar-collapse" id="navbarNav">
                     <ul class="navbar-nav">
                         <li class="nav-item active">
-                            <a class="nav-link" href="/index.html">Strona główna </a>
+                            <a class="nav-link" href="/">Strona główna </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/all-rooms">Wszystkie pokoje</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="/add-room">Dodaj pokój</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="/my-flats">Moje mieszkania</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="/add-user-form">Załóż konto</a>

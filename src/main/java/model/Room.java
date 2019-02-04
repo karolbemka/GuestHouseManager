@@ -12,7 +12,7 @@ public class Room {
     @Column(name = "ROOM_ID")
     private int roomId;
 
-    @Column(name = "ROOM_NAME")
+    @Column(name = "ROOM_NAME", unique = true)
     private String roomName;
 
     @Column(name = "ROOM_SLOTS")
