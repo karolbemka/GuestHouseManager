@@ -43,6 +43,7 @@ public class ReservationsServlet extends HttpServlet {
         Room room = roomDao.findById(roomId);
         List<Reservation> roomReservations = room.getRoomReservations();
 
+        model.put("room", room);
         model.put("roomReservations", roomReservations);
 
         try {

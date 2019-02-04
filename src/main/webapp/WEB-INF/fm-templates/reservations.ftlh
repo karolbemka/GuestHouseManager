@@ -2,7 +2,7 @@
 
 <div class="container">
     <div class="jumbotron jumbotron-opacity">
-        <h1 class="display-4">Rezerwacje</h1>
+        <h1 class="display-4">Rezerwacje dla pokoju: ${room.roomName}</h1>
         <hr class="my-4">
         <table class="table">
             <thead class="thead-dark">

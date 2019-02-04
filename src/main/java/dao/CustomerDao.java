@@ -39,4 +39,12 @@ public class CustomerDao {
 
         return (List<Customer>) query.getResultList();
     }
+
+    public List<Customer> findByPhone(int customerPhone) {
+        final Query query = entityManager.createQuery("SELECT c FROM Customer c where c.customerPhone = :customerPhone");
+        query.setParameter("customerPhone", customerPhone);
+
+        return (List<Customer>) query.getResultList();
+    }
+
 }

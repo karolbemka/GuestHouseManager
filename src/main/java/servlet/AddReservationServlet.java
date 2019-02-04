@@ -11,19 +11,17 @@ import model.Reservation;
 import model.Room;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import service.CustomerService;
 
 import javax.inject.Inject;
-import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.time.LocalDate;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 @WebServlet(urlPatterns = "/add-reservation")
@@ -40,6 +38,8 @@ public class AddReservationServlet extends HttpServlet {
     private ReservationDao reservationDao;
     @Inject
     private CustomerDao customerDao;
+    @Inject
+    private CustomerService customerService;
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
@@ -72,17 +72,29 @@ public class AddReservationServlet extends HttpServlet {
         newReservation.setStartDate(LocalDate.parse(req.getParameter("startDate")));
         newReservation.setEndDate(LocalDate.parse(req.getParameter("endDate")));
         newReservation.setNumberOfPersons(Integer.parseInt(req.getParameter("numberOfPersons")));
-        final Customer newCustomer = new Customer();
+        Customer newCustomer = new Customer();
         newCustomer.setCustomerName(req.getParameter("customerName"));
         newCustomer.setCustomerSurname(req.getParameter("customerSurname"));
         newCustomer.setCustomerPhone(Integer.parseInt(req.getParameter("customerPhone")));
         newCustomer.setCustomerEmail(req.getParameter("customerEmail"));
+
+        if (customerService.checkIfCustomerExist(newCustomer)) {
+            newCustomer = customerDao.findByPhone(Integer.parseInt(req.getParameter("customerPhone"))).get(0);
+        } else {
+            customerDao.save(newCustomer);
+        }
+
         newReservation.setReservationCustomer(newCustomer);
         newReservation.setReservedRoom(room);
 
-        customerDao.save(newCustomer);
-
-        reservationDao.save(newReservation);
+        try {
+            reservationDao.save(newReservation);
+            LOG.info("Added new reservation for room {} with start date {}, end date {}, customer surename {}",
+                    room.getRoomName(), newReservation.getStartDate(), newReservation.getEndDate(),
+                    newCustomer.getCustomerSurname());
+        } catch (Exception e) {
+            LOG.error("Failed to add new reservation for room {} due to {}", room.getRoomName(), e.getMessage());
+        }
 
         resp.sendRedirect("/reservations?id=" + roomId);
     }
