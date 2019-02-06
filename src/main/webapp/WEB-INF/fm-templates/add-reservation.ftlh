@@ -5,9 +5,19 @@
         <h1 class="display-4">Dodaj rezerwację dla pokoju: ${room.roomName}</h1>
         <hr class="my-4">
 
-        <#if error??>
+        <#if errors['dateTaken']??>
             <div class="alert alert-danger">
-                <strong>${error}</strong>
+                <strong>${errors['dateTaken']}</strong>
+            </div>
+        </#if>
+        <#if errors['wrongDates']??>
+            <div class="alert alert-danger">
+                <strong>${errors['wrongDates']}</strong>
+            </div>
+        </#if>
+        <#if errors['wrongNumberOfPersons']??>
+            <div class="alert alert-danger">
+                <strong>${errors['wrongNumberOfPersons']}</strong>
             </div>
         </#if>
 

@@ -5,18 +5,19 @@ import dao.RoomDao;
 import model.Reservation;
 import model.Room;
 
+import javax.ejb.Stateless;
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.time.LocalDate;
 import java.util.List;
 
+@Stateless
 public class ReservationService {
 
     public static final String RESERVATION_DATE_TAKEN = "dateTaken";
     public static final String WRONG_DATES = "wrongDates";
     public static final String WRONG_NUMBER_OF_PERSONS = "wrongNumberOfPersons";
-
 
     @Inject
     private ReservationDao reservationDao;
@@ -25,7 +26,6 @@ public class ReservationService {
 
     public Reservation createReservationFromHttpRequest(HttpServletRequest req, HttpSession session) {
         Reservation newReservation = new Reservation();
-
         int roomId = Integer.parseInt(req.getParameter("roomId"));
         Room room = roomDao.findById(roomId);
 

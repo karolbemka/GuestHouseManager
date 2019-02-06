@@ -30,7 +30,6 @@ public class AddReservationServlet extends HttpServlet {
 
     private static final String TEMPLATE_NAME = "add-reservation";
     private static final Logger LOG = LoggerFactory.getLogger(AddReservationServlet.class);
-    public static final String ADD_RESERVATION_FAILURE = "addReservationFailure";
 
     @Inject
     private TemplateProvider templateProvider;
@@ -56,8 +55,7 @@ public class AddReservationServlet extends HttpServlet {
         int roomId = Integer.parseInt(req.getParameter("id"));
         Room room = roomDao.findById(roomId);
 
-        model.put("error", session.getAttribute(ADD_RESERVATION_FAILURE));
-        session.removeAttribute(ADD_RESERVATION_FAILURE);
+        model.put("errors", createErrorsMap(session));
         model.put("room", room);
 
         try {
@@ -65,7 +63,6 @@ public class AddReservationServlet extends HttpServlet {
         } catch (TemplateException e) {
             LOG.error("Failed to add new room due to {}", e.getMessage());
         }
-
     }
 
     @Override
@@ -85,7 +82,7 @@ public class AddReservationServlet extends HttpServlet {
             LOG.info("Addend new customer ({}) to DB", newCustomer.getCustomerSurname());
         }
 
-        if (newReservation!=null) {
+        if (newReservation.getStartDate()!=null) {
             newReservation.setReservationCustomer(newCustomer);
             newReservation.setReservedRoom(room);
             if (reservationService.checkIfReservationDateIsFree(newReservation, session)) {
@@ -104,5 +101,18 @@ public class AddReservationServlet extends HttpServlet {
         } else {
             resp.sendRedirect("/add-reservation?id=" + roomId);
         }
+    }
+
+    private Map<String, Object> createErrorsMap(HttpSession session) {
+        Map<String, Object> errorMap = new HashMap<>();
+
+        errorMap.put(ReservationService.WRONG_DATES, session.getAttribute(ReservationService.WRONG_DATES));
+        errorMap.put(ReservationService.RESERVATION_DATE_TAKEN, session.getAttribute(ReservationService.RESERVATION_DATE_TAKEN));
+        errorMap.put(ReservationService.WRONG_NUMBER_OF_PERSONS, session.getAttribute(ReservationService.WRONG_NUMBER_OF_PERSONS));
+        session.removeAttribute(ReservationService.WRONG_DATES);
+        session.removeAttribute(ReservationService.RESERVATION_DATE_TAKEN);
+        session.removeAttribute(ReservationService.WRONG_NUMBER_OF_PERSONS);
+
+        return errorMap;
     }
 }
