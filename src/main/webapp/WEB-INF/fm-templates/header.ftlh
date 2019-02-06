@@ -31,7 +31,7 @@
                             <a class="nav-link" href="/add-room">Dodaj pokój</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="/add-user-form">Załóż konto</a>
+                            <a class="nav-link" href="/customer-search">Szukaj klienta</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="/select-login-form">Zaloguj </a>

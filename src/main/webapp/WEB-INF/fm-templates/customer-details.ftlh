@@ -2,7 +2,7 @@
 
 <div class="container">
     <div class="jumbotron jumbotron-opacity">
-        <h1 class="display-4">Szczegóły rezerwacji</h1>
+        <h1 class="display-4">Dane klienta</h1>
         <hr class="my-4">
         <table class="table">
             <thead class="thead-dark">
@@ -45,7 +45,7 @@
             <tbody>
             <#list reservationList as r>
                 <tr>
-                    <td>${r.reservedRoom.roomName}</td>
+                    <td><a href="/reservations?id=${r.reservedRoom.roomId}" class="btn btn-dark">${r.reservedRoom.roomName}</a></td>
                     <td>${r.startDate}</td>
                     <td>${r.endDate}</td>
                     <td>${r.numberOfPersons}</td>

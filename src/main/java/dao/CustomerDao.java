@@ -41,8 +41,22 @@ public class CustomerDao {
     }
 
     public List<Customer> findByPhone(int customerPhone) {
-        final Query query = entityManager.createQuery("SELECT c FROM Customer c where c.customerPhone = :customerPhone");
+        final Query query = entityManager.createQuery("SELECT c FROM Customer c WHERE c.customerPhone = :customerPhone");
         query.setParameter("customerPhone", customerPhone);
+
+        return (List<Customer>) query.getResultList();
+    }
+
+    public List<Customer> findBySurname(String customerSurname) {
+        final Query query = entityManager.createQuery("SELECT c FROM Customer c WHERE c.customerSurname = :customerSurname");
+        query.setParameter("customerSurname", customerSurname);
+
+        return (List<Customer>) query.getResultList();
+    }
+
+    public List<Customer> findByEmail(String customerEmail) {
+        final Query query = entityManager.createQuery("SELECT c FROM Customer c WHERE c.customerEmail = :customerEmail");
+        query.setParameter("customerEmail", customerEmail);
 
         return (List<Customer>) query.getResultList();
     }

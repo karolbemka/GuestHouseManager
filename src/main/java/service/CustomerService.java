@@ -8,6 +8,7 @@ import org.slf4j.LoggerFactory;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
+import java.util.ArrayList;
 import java.util.List;
 
 @Stateless
@@ -41,5 +42,22 @@ public class CustomerService {
             return customerInDb.get(0).getCustomerName().equals(givenCustomer.getCustomerName()) &&
                     customerInDb.get(0).getCustomerSurname().equals(givenCustomer.getCustomerSurname());
         }
+    }
+
+    public List<Customer> searchForCustomers(HttpServletRequest req) {
+        String option = req.getParameter("searchOption");
+        String searchFor = req.getParameter("searchFor");
+
+        if (option != null && searchFor != null) {
+            switch (option) {
+                case "1":
+                    return customerDao.findBySurname(searchFor);
+                case "2":
+                    return customerDao.findByPhone(Integer.parseInt(searchFor));
+                case "3":
+                    return customerDao.findByEmail(searchFor);
+            }
+        }
+        return new ArrayList<>();
     }
 }
