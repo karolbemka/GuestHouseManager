@@ -48,6 +48,7 @@ public class AddReservationServlet extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         HttpSession session = req.getSession();
         resp.addHeader("Content-Type", "text/html; charset=utf-8");
+        req.setCharacterEncoding("UTF-8");
         PrintWriter out = resp.getWriter();
         Template template = templateProvider.getTemplate(getServletContext(), TEMPLATE_NAME);
         Map<String, Object> model = new HashMap<>();
@@ -68,7 +69,7 @@ public class AddReservationServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         HttpSession session = req.getSession();
-
+        req.setCharacterEncoding("UTF-8");
         int roomId = Integer.parseInt(req.getParameter("roomId"));
         Room room = roomDao.findById(roomId);
 

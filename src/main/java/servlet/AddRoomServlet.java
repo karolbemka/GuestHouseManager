@@ -26,7 +26,7 @@ public class AddRoomServlet extends HttpServlet {
 
     private static final String TEMPLATE_NAME = "add-room";
     private static final Logger LOG = LoggerFactory.getLogger(AddRoomServlet.class);
-    public static final String ADD_ROOM_FAILURE = "addRoomFailure";
+    private static final String ADD_ROOM_FAILURE = "addRoomFailure";
 
     @Inject
     private TemplateProvider templateProvider;
@@ -39,6 +39,7 @@ public class AddRoomServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         resp.addHeader("Content-Type", "text/html; charset=utf-8");
+        req.setCharacterEncoding("UTF-8");
         PrintWriter out = resp.getWriter();
         Template template = templateProvider.getTemplate(getServletContext(), TEMPLATE_NAME);
         Map<String, Object> model = new HashMap<>();
@@ -56,6 +57,7 @@ public class AddRoomServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+        req.setCharacterEncoding("UTF-8");
 
         final Room newRoom = new Room();
         HttpSession session = req.getSession();

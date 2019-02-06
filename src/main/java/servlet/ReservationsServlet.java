@@ -16,9 +16,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 @WebServlet(urlPatterns = "/reservations")
 public class ReservationsServlet extends HttpServlet {
@@ -34,6 +36,7 @@ public class ReservationsServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         resp.addHeader("Content-Type", "text/html; charset=utf-8");
+        req.setCharacterEncoding("UTF-8");
         PrintWriter out = resp.getWriter();
         Template template = templateProvider.getTemplate(getServletContext(), TEMPLATE_NAME);
         Map<String, Object> model = new HashMap<>();
@@ -41,7 +44,9 @@ public class ReservationsServlet extends HttpServlet {
         int roomId = Integer.parseInt(req.getParameter("id"));
 
         Room room = roomDao.findById(roomId);
-        List<Reservation> roomReservations = room.getRoomReservations();
+        List<Reservation> roomReservations = room.getRoomReservations().stream()
+                .sorted(Comparator.comparing(Reservation::getStartDate))
+                .collect(Collectors.toList());
 
         model.put("room", room);
         model.put("roomReservations", roomReservations);

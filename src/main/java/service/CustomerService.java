@@ -24,6 +24,8 @@ public class CustomerService {
         newCustomer.setCustomerSurname(req.getParameter("customerSurname"));
         newCustomer.setCustomerPhone(Integer.parseInt(req.getParameter("customerPhone")));
         newCustomer.setCustomerEmail(req.getParameter("customerEmail"));
+        System.out.println(req.getParameter("customerName"));
+        System.out.println(req.getParameter("customerSurname"));
         return newCustomer;
     }
 
@@ -35,6 +37,7 @@ public class CustomerService {
             return false;
         } else {
             LOG.info("Given customer {} already exist in DB", givenCustomer.getCustomerSurname());
+
             return customerInDb.get(0).getCustomerName().equals(givenCustomer.getCustomerName()) &&
                     customerInDb.get(0).getCustomerSurname().equals(givenCustomer.getCustomerSurname());
         }
