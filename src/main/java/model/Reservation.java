@@ -27,7 +27,7 @@ public class Reservation {
     private LocalDate endDate;
 
     @Column(name = "NUMBER_OF_PERSONS")
-    private int numberOfPersons;
+        private int numberOfPersons;
 
 
 

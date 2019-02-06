@@ -30,7 +30,7 @@ public class AddReservationServlet extends HttpServlet {
 
     private static final String TEMPLATE_NAME = "add-reservation";
     private static final Logger LOG = LoggerFactory.getLogger(AddReservationServlet.class);
-    private static final String ADD_RESERVATION_FAILURE = "addReservationFailure";
+    public static final String ADD_RESERVATION_FAILURE = "addReservationFailure";
 
     @Inject
     private TemplateProvider templateProvider;
@@ -75,7 +75,7 @@ public class AddReservationServlet extends HttpServlet {
         int roomId = Integer.parseInt(req.getParameter("roomId"));
         Room room = roomDao.findById(roomId);
 
-        Reservation newReservation = reservationService.createReservationFromHttpRequest(req);
+        Reservation newReservation = reservationService.createReservationFromHttpRequest(req, session);
         Customer newCustomer = customerService.createCustomerFromHttpRequest(req);
 
         if (customerService.checkIfCustomerExist(newCustomer)) {
@@ -85,24 +85,24 @@ public class AddReservationServlet extends HttpServlet {
             LOG.info("Addend new customer ({}) to DB", newCustomer.getCustomerSurname());
         }
 
-        newReservation.setReservationCustomer(newCustomer);
-        newReservation.setReservedRoom(room);
-
-        if (reservationService.checkIfReservationDateIsFree(newReservation)) {
-            try {
-                reservationDao.save(newReservation);
-                LOG.info("Added new reservation for room {} with start date {}, end date {}, customer surename {}",
-                        room.getRoomName(), newReservation.getStartDate(), newReservation.getEndDate(),
-                        newCustomer.getCustomerSurname());
-            } catch (Exception e) {
-                LOG.error("Failed to add new reservation for room {} due to {}", room.getRoomName(), e.getMessage());
+        if (newReservation!=null) {
+            newReservation.setReservationCustomer(newCustomer);
+            newReservation.setReservedRoom(room);
+            if (reservationService.checkIfReservationDateIsFree(newReservation, session)) {
+                try {
+                    reservationDao.save(newReservation);
+                    LOG.info("Added new reservation for room {} with start date {}, end date {}, customer surename {}",
+                            room.getRoomName(), newReservation.getStartDate(), newReservation.getEndDate(),
+                            newCustomer.getCustomerSurname());
+                    resp.sendRedirect("/reservations?id=" + roomId);
+                } catch (Exception e) {
+                    LOG.error("Failed to add new reservation for room {} due to {}", room.getRoomName(), e.getMessage());
+                }
+            } else {
+                resp.sendRedirect("/add-reservation?id=" + roomId);
             }
         } else {
-            session.setAttribute(ADD_RESERVATION_FAILURE, "Podany ternim jest już zajęty!");
-            LOG.warn("Failed to add new reservation for room {} because given dates {} - {} are already taken",
-                    room.getRoomName(), newReservation.getStartDate(), newReservation.getEndDate());
             resp.sendRedirect("/add-reservation?id=" + roomId);
         }
-        resp.sendRedirect("/reservations?id=" + roomId);
     }
 }
