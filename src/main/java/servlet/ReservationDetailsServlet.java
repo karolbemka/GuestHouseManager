@@ -8,6 +8,7 @@ import freemarker.template.TemplateException;
 import model.Reservation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import service.ReservationService;
 
 import javax.inject.Inject;
 import javax.servlet.annotation.WebServlet;
@@ -31,6 +32,8 @@ public class ReservationDetailsServlet extends HttpServlet {
     private ReservationDao reservationDao;
     @Inject
     private RoomDao roomDao;
+    @Inject
+    private ReservationService reservationService;
 
 
     @Override
@@ -42,8 +45,10 @@ public class ReservationDetailsServlet extends HttpServlet {
         Map<String, Object> model = new HashMap<>();
 
         Reservation reservation = reservationDao.findById(Integer.parseInt(req.getParameter("id")));
+        double tax = reservationService.calculateTax(reservation);
 
         model.put("reservation", reservation);
+        model.put("tax", tax);
 
         try {
             template.process(model, out);

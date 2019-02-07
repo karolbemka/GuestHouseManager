@@ -40,6 +40,10 @@
                 <th class="thead-dark">Adres e-mail</th>
                 <td>${reservation.reservationCustomer.customerEmail}</td>
             </tr>
+            <tr>
+                <th class="thead-dark">Opłata klimatyczna za pobyt</th>
+                <td>${tax}zł</td>
+            </tr>
             </tbody>
         </table>
     </div>

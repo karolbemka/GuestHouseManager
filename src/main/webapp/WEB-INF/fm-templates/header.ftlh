@@ -7,6 +7,7 @@
     <link href="css/bootstrap.min.css" rel="stylesheet">
     <link href="css/style.css" rel="stylesheet">
 
+
 </head>
 <body>
 <div class="wrap">
@@ -34,7 +35,7 @@
                             <a class="nav-link" href="/customer-search">Szukaj klienta</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="/select-login-form">Zaloguj </a>
+                            <a class="nav-link" href="/all-reservations">Wszystkie rezerwacje</a>
                         </li>
                     </ul>
                 </div>

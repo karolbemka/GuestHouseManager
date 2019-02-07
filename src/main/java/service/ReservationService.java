@@ -12,12 +12,15 @@ import javax.servlet.http.HttpSession;
 import java.time.LocalDate;
 import java.util.List;
 
+import static java.time.temporal.ChronoUnit.DAYS;
+
 @Stateless
 public class ReservationService {
 
     public static final String RESERVATION_DATE_TAKEN = "dateTaken";
     public static final String WRONG_DATES = "wrongDates";
     public static final String WRONG_NUMBER_OF_PERSONS = "wrongNumberOfPersons";
+    private static final double TAX_RATE = 1.6;
 
     @Inject
     private ReservationDao reservationDao;
@@ -86,5 +89,13 @@ public class ReservationService {
             session.setAttribute(WRONG_NUMBER_OF_PERSONS, "Liczba gości przewyższa liczbę dostępnych miejsc w pokoju!");
         }
         return numberOfPersons <= roomSlots;
+    }
+
+    public double calculateTax(Reservation reservation) {
+        int numberOfPersons = reservation.getNumberOfPersons();
+
+        long reservationDuration = DAYS.between(reservation.getStartDate(), reservation.getEndDate());
+
+        return (double) reservationDuration * numberOfPersons * TAX_RATE;
     }
 }

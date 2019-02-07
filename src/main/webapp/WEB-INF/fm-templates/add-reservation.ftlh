@@ -1,5 +1,6 @@
 <#include "header.ftlh">
 
+
 <div class="container">
     <div class="jumbotron jumbotron-opacity">
         <h1 class="display-4">Dodaj rezerwację dla pokoju: ${room.roomName}</h1>
@@ -20,6 +21,7 @@
                 <strong>${errors['wrongNumberOfPersons']}</strong>
             </div>
         </#if>
+
 
         <form method="post" action="/add-reservation">
 
@@ -70,10 +72,12 @@
                 <input name="roomId" type="text" class="form-control" id="roomId" value="${room.roomId}">
             </div>
 
+
             <br>
             <input class="btn btn-primary btn-lg btn-dark" type="submit" value="Dodaj rezerwację">
         </form>
     </div>
 </div>
+
 
 <#include "footer.ftlh">
