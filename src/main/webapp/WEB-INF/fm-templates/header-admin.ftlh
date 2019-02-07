@@ -26,7 +26,16 @@
                             <a class="nav-link" href="/">Strona główna </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="/login">Logowanie</a>
+                            <a class="nav-link" href="/all-rooms">Wszystkie pokoje</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/add-room">Dodaj pokój</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/customer-search">Szukaj klienta</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/logout">Wyloguj</a>
                         </li>
                     </ul>
                 </div>

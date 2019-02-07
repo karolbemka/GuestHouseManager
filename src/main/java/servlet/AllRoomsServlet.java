@@ -13,6 +13,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.HashMap;
@@ -23,26 +24,24 @@ import java.util.Map;
 public class AllRoomsServlet extends HttpServlet {
 
     private static final String TEMPLATE_NAME = "all-rooms";
-
     private static final Logger LOG = LoggerFactory.getLogger(AllRoomsServlet.class);
 
     @Inject
     private TemplateProvider templateProvider;
-
     @Inject
     private RoomDao roomDao;
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+        HttpSession session = req.getSession();
         resp.addHeader("Content-Type", "text/html; charset=utf-8");
         req.setCharacterEncoding("UTF-8");
         PrintWriter out = resp.getWriter();
         Template template = templateProvider.getTemplate(getServletContext(), TEMPLATE_NAME);
         Map<String, Object> model = new HashMap<>();
 
-
         List<Room> roomsList = roomDao.findAll();
-
+        model.put("admin", session.getAttribute("admin"));
         model.put("roomsList", roomsList);
 
         try {

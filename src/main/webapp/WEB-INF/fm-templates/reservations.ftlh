@@ -1,4 +1,4 @@
-<#include "header.ftlh">
+<#include "header-admin.ftlh">
 
 <div class="container">
     <div class="jumbotron jumbotron-opacity">

@@ -1,4 +1,8 @@
-<#include "header.ftlh">
+<#if admin??>
+    <#include "header-admin.ftlh">
+<#else >
+    <#include "header.ftlh">
+</#if>
 
 <div class="container">
     <div class="jumbotron jumbotron-opacity">
