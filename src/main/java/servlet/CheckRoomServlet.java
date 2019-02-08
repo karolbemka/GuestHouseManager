@@ -50,6 +50,8 @@ public class CheckRoomServlet extends HttpServlet {
         int roomId = Integer.parseInt(req.getParameter("id"));
         Room room = roomDao.findById(roomId);
 
+        model.put("newReservation", session.getAttribute("newReservation"));
+        session.removeAttribute("newReservation");
         model.put("free", session.getAttribute("free"));
         session.removeAttribute("free");
         model.put("errors", servletErrorsService.createErrorsMap(session));
@@ -75,13 +77,16 @@ public class CheckRoomServlet extends HttpServlet {
         Room room = roomDao.findById(roomId);
 
         Reservation newReservation = reservationService.createReservationFromHttpRequest(req, session);
+        session.setAttribute("newReservation", newReservation);
 
-        if (newReservation.getStartDate()!=null) {
+        if (newReservation.getStartDate() != null) {
             newReservation.setReservedRoom(room);
             LOG.info("Customer checked room {} for dates {} - {}", room.getRoomName(),
                     newReservation.getStartDate(), newReservation.getEndDate());
             if (reservationService.checkIfReservationDateIsFree(newReservation, session)) {
-                session.setAttribute("free", true );
+                session.setAttribute("free", true);
+            } else {
+                session.setAttribute("free", false);
             }
         }
         resp.sendRedirect("/check-room?id=" + roomId);

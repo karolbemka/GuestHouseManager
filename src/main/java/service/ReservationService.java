@@ -63,8 +63,8 @@ public class ReservationService {
     }
 
     private boolean checkIfNewReservationOverlapsExisting(LocalDate startDateToCheck, LocalDate endDateToCheck, LocalDate startDate, LocalDate endDate) {
-        boolean startDateOverlapsExisting = checkIfDateIsBetween(startDateToCheck, startDate, endDate);
-        boolean endDateOverlapsExisting = checkIfDateIsBetween(endDateToCheck, startDate, endDate);
+        boolean startDateOverlapsExisting = checkIfDateIsBetween(startDateToCheck, startDate, endDate) || startDateToCheck.isEqual(startDate);
+        boolean endDateOverlapsExisting = checkIfDateIsBetween(endDateToCheck, startDate, endDate) || endDateToCheck.isEqual(endDate);
 
         boolean existingReservationInsideNew = checkIfDateIsBetween(startDate, startDateToCheck, endDateToCheck) &&
                 checkIfDateIsBetween(endDate, startDateToCheck, endDateToCheck);

@@ -6,11 +6,11 @@
         <h1 class="display-4">Sprawdź dostępność pokoju: ${room.roomName}</h1>
         <hr class="my-4">
 
-        <#if errors['dateTaken']??>
-            <div class="alert alert-danger">
-                <strong>${errors['dateTaken']}</strong>
-            </div>
-        </#if>
+        <#--<#if errors['dateTaken']??>-->
+            <#--<div class="alert alert-danger">-->
+                <#--<strong>${errors['dateTaken']}</strong>-->
+            <#--</div>-->
+        <#--</#if>-->
         <#if errors['wrongDates']??>
             <div class="alert alert-danger">
                 <strong>${errors['wrongDates']}</strong>
@@ -24,11 +24,11 @@
         <#if free??>
             <#if free>
                 <div class="alert alert-success">
-                    <strong>Pokój jest wolny</strong>
+                    <strong>Pokój w terminie ${newReservation.startDate} - ${newReservation.endDate} jest wolny</strong>
                 </div>
             <#else >
                 <div class="alert alert-danger">
-                    <strong>Pokój jest zajęty</strong>
+                    <strong>Pokój w terminie ${newReservation.startDate} - ${newReservation.endDate} jest zajęty</strong>
                 </div>
             </#if>
         </#if>
