@@ -35,7 +35,7 @@ public class AddAdminServlet extends HttpServlet {
 
 
     @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         resp.addHeader("Content-Type", "text/html; charset=utf-8");
         req.setCharacterEncoding("UTF-8");
         PrintWriter out = resp.getWriter();
@@ -50,7 +50,7 @@ public class AddAdminServlet extends HttpServlet {
     }
 
     @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         resp.addHeader("Content-Type", "text/html; charset=utf-8");
         req.setCharacterEncoding("UTF-8");
         PrintWriter out = resp.getWriter();

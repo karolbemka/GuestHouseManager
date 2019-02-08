@@ -1,18 +1,14 @@
 package servlet;
 
-import dao.CustomerDao;
-import dao.ReservationDao;
 import dao.RoomDao;
 import errorHandling.ServletErrorsService;
 import freemarker.TemplateProvider;
 import freemarker.template.Template;
 import freemarker.template.TemplateException;
-import model.Customer;
 import model.Reservation;
 import model.Room;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import service.CustomerService;
 import service.ReservationService;
 
 import javax.inject.Inject;
@@ -26,24 +22,18 @@ import java.io.PrintWriter;
 import java.util.HashMap;
 import java.util.Map;
 
-@WebServlet(urlPatterns = "/add-reservation")
-public class AddReservationServlet extends HttpServlet {
+@WebServlet(urlPatterns = "/check-room")
+public class CheckRoomServlet extends HttpServlet {
 
-    private static final String TEMPLATE_NAME = "add-reservation";
-    private static final Logger LOG = LoggerFactory.getLogger(AddReservationServlet.class);
+    private static final String TEMPLATE_NAME = "check-room";
+    private static final Logger LOG = LoggerFactory.getLogger(CheckRoomServlet.class);
 
     @Inject
     private TemplateProvider templateProvider;
     @Inject
-    private RoomDao roomDao;
-    @Inject
-    private ReservationDao reservationDao;
-    @Inject
-    private CustomerDao customerDao;
-    @Inject
-    private CustomerService customerService;
-    @Inject
     private ReservationService reservationService;
+    @Inject
+    private RoomDao roomDao;
     @Inject
     private ServletErrorsService servletErrorsService;
 
@@ -55,55 +45,45 @@ public class AddReservationServlet extends HttpServlet {
         PrintWriter out = resp.getWriter();
         Template template = templateProvider.getTemplate(getServletContext(), TEMPLATE_NAME);
         Map<String, Object> model = new HashMap<>();
+        model.put("admin", session.getAttribute("admin"));
 
         int roomId = Integer.parseInt(req.getParameter("id"));
         Room room = roomDao.findById(roomId);
 
+        model.put("free", session.getAttribute("free"));
+        session.removeAttribute("free");
         model.put("errors", servletErrorsService.createErrorsMap(session));
         model.put("room", room);
 
         try {
             template.process(model, out);
         } catch (TemplateException e) {
-            LOG.error("Failed to add new room due to {}", e.getMessage());
+            LOG.error("Failed to process template due to {}", e.getMessage());
         }
     }
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         HttpSession session = req.getSession();
+        resp.addHeader("Content-Type", "text/html; charset=utf-8");
         req.setCharacterEncoding("UTF-8");
+        PrintWriter out = resp.getWriter();
+        Template template = templateProvider.getTemplate(getServletContext(), TEMPLATE_NAME);
+        Map<String, Object> model = new HashMap<>();
+
         int roomId = Integer.parseInt(req.getParameter("roomId"));
         Room room = roomDao.findById(roomId);
 
         Reservation newReservation = reservationService.createReservationFromHttpRequest(req, session);
-        Customer newCustomer = customerService.createCustomerFromHttpRequest(req);
-
-        if (customerService.checkIfCustomerExist(newCustomer)) {
-            newCustomer = customerDao.findByPhone(Integer.parseInt(req.getParameter("customerPhone"))).get(0);
-        } else {
-            customerDao.save(newCustomer);
-            LOG.info("Addend new customer ({}) to DB", newCustomer.getCustomerSurname());
-        }
 
         if (newReservation.getStartDate()!=null) {
-            newReservation.setReservationCustomer(newCustomer);
             newReservation.setReservedRoom(room);
+            LOG.info("Customer checked room {} for dates {} - {}", room.getRoomName(),
+                    newReservation.getStartDate(), newReservation.getEndDate());
             if (reservationService.checkIfReservationDateIsFree(newReservation, session)) {
-                try {
-                    reservationDao.save(newReservation);
-                    LOG.info("Added new reservation for room {} with start date {}, end date {}, customer surename {}",
-                            room.getRoomName(), newReservation.getStartDate(), newReservation.getEndDate(),
-                            newCustomer.getCustomerSurname());
-                    resp.sendRedirect("/reservations?id=" + roomId);
-                } catch (Exception e) {
-                    LOG.error("Failed to add new reservation for room {} due to {}", room.getRoomName(), e.getMessage());
-                }
-            } else {
-                resp.sendRedirect("/add-reservation?id=" + roomId);
+                session.setAttribute("free", true );
             }
-        } else {
-            resp.sendRedirect("/add-reservation?id=" + roomId);
         }
+        resp.sendRedirect("/check-room?id=" + roomId);
     }
 }
