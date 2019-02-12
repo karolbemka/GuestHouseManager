@@ -6,7 +6,19 @@
     <!-- Bootstrap core CSS -->
     <link href="css/bootstrap.min.css" rel="stylesheet">
     <link href="css/style.css" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="../../css/availability-calendar.css" rel="stylesheet" type="text/css">
+    <style>
+        body {
+            font-family: 'Open Sans';
+            background-color: #ECF0F1;
+        }
 
+        .container {
+            max-width: 60%;
+            margin: 150px auto;
+        }
+    </style>
 
 </head>
 <body>

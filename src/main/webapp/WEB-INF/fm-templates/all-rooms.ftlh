@@ -18,7 +18,7 @@
                 <tbody>
                 <#list roomsList as room>
                     <tr>
-                        <td>${room.roomName}</td>
+                        <td ><h3><span class="badge badge-dark">${room.roomName}</span></h3></td>
                         <td>${room.roomSlots}</td>
                         <td>
                             <a href="/reservations?id=${room.roomId}" class="btn btn-dark">Zobacz rezerwacje</a>
@@ -50,7 +50,7 @@
                 <tbody>
                 <#list roomsList as room>
                     <tr>
-                        <td>${room.roomName}</td>
+                        <td><h3><span class="badge badge-dark">${room.roomName}</span></h3></td>
                         <td>${room.roomSlots}</td>
                         <td>
                             <a href="/check-room?id=${room.roomId}" class="btn btn-dark">Sprawdź dostępność</a>

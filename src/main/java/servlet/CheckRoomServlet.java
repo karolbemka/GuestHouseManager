@@ -56,6 +56,8 @@ public class CheckRoomServlet extends HttpServlet {
         session.removeAttribute("free");
         model.put("errors", servletErrorsService.createErrorsMap(session));
         model.put("room", room);
+        model.put("roomReservations", room.getRoomReservations());
+
 
         try {
             template.process(model, out);
